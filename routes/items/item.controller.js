@@ -30,7 +30,7 @@ let getAllItems = async (req, res, next) => {
 };
 let getItem = async (req, res, next) => {
 	try {
-		const id = req.params.itemId;
+		const id = req.params.id;
 		const itemsInfo = await items.findOne({ id: id });
 
 		if (!itemsInfo) {
@@ -45,13 +45,14 @@ let getItem = async (req, res, next) => {
 
 let updateItem = async (req, res, next) => {
 	try {
-		const id = req.params.itemId;
+		const id = req.params.id;
 		const itemUpdate = await items.findOneAndUpdate({ id: id },
+				req.body,
 			{
-				itemName: req.body.itemName,
-                itemPrice: req.body.itemName
+				new : true,
 			}
-		);
+			);
+			console.log(req.body);
 		if (!itemUpdate) {
 			return res.status(404).send();
 		} else {
@@ -63,7 +64,7 @@ let updateItem = async (req, res, next) => {
 };
 let deleteItem = async (req, res, next) => {
 	try {
-		const id = req.params.itemId;
+		const id = req.params.id;
 		const deleteItem = await items.findOneAndDelete({ id: id });
 		console.log(deleteItem);
 		if (!id) {
